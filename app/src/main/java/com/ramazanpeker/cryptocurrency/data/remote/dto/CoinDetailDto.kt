@@ -53,18 +53,18 @@ data class CoinDetailDto(
     val type: String?,
     @SerializedName("whitepaper")
     val whitepaper: Whitepaper?
-) {
-    fun CoinDetailDto.toCoinDetail(): CoinDetail {
-        return CoinDetail(
-            coinId = id,
-            isActive = isActive,
-            isNew = isNew,
-            name = name,
-            rank = rank,
-            symbol = symbol,
-            description = description,
-            tags = tags?.map { it.name },
-            team = team
-        )
-    }
+)
+
+fun CoinDetailDto.toCoinDetail(): CoinDetail {
+    return CoinDetail(
+        coinId = id,
+        isActive = isActive,
+        isNew = isNew,
+        name = name,
+        rank = rank,
+        symbol = symbol,
+        description = description,
+        tags = tags?.map { it.name },
+        team = team
+    )
 }

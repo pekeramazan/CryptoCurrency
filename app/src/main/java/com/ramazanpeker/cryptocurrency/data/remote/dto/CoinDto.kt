@@ -19,15 +19,15 @@ data class CoinDto(
     val symbol: String,
     @SerializedName("type")
     val type: String
-) {
-    fun CoinDto.toCoin(): Coin {
-        return Coin(
-            id = id,
-            isActive = isActive,
-            isNew = isNew,
-            name = name,
-            rank = rank,
-            symbol = symbol
-        )
-    }
+)
+
+fun CoinDto.toCoin(): Coin {
+    return Coin(
+        id = id,
+        isActive = isActive,
+        isNew = isNew,
+        name = name,
+        rank = rank,
+        symbol = symbol
+    )
 }
