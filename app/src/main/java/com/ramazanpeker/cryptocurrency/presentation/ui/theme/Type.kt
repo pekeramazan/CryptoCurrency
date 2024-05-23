@@ -1,4 +1,4 @@
-package com.ramazanpeker.cryptocurrency.ui.theme
+package com.ramazanpeker.cryptocurrency.presentation.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

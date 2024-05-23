@@ -1,4 +1,4 @@
-package com.ramazanpeker.cryptocurrency.ui.theme
+package com.ramazanpeker.cryptocurrency.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build
