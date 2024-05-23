@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.daggerHiltAndroid)
     id ("kotlin-kapt")
 
 }
@@ -78,21 +79,13 @@ dependencies {
     // Coroutine Lifecycle Scopes
     implementation(libs.lifecycleViewModelKtx)
 
-    // Dagger - Hilt
-    /* implementation(libs.daggerHiltAndroid)
-     implementation(platform(libs.daggerHiltCompiler))
-     implementation(libs.hiltNavigationCompose)
-     implementation(libs.hiltLifecycleViewModel)
-     implementation(libs.hiltCompiler)*/
-
     //Dagger - Hilt
     implementation ("com.google.dagger:hilt-android:2.51.1")
     kapt ("com.google.dagger:hilt-android-compiler:2.51.1")
-    //implementation ("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
     kapt ("androidx.hilt:hilt-compiler:1.2.0")
     implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation ("androidx.hilt:hilt-navigation-fragment:1.2.0")
-    //implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
+
     // Retrofit
     implementation(libs.retrofit)
     implementation(libs.retrofitConverterGson)
