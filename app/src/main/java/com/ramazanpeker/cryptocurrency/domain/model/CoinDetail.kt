@@ -11,5 +11,6 @@ data class CoinDetail(
     val isNew: Boolean?,
     val isActive: Boolean?,
     val tags: List<String?>?,
-    val team: List<TeamMember>?
+    val team: List<TeamMember>?,
+    val logo: String?
 )

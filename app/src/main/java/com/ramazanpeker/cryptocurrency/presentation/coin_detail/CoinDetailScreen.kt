@@ -1,5 +1,7 @@
 package com.ramazanpeker.cryptocurrency.presentation.coin_detail
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -11,8 +13,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
@@ -24,12 +29,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.rememberAsyncImagePainter
+import com.ramazanpeker.cryptocurrency.domain.model.Coin
 import com.ramazanpeker.cryptocurrency.presentation.coin_detail.components.CoinTag
 import com.ramazanpeker.cryptocurrency.presentation.coin_detail.components.TeamListItem
+import com.ramazanpeker.cryptocurrency.presentation.coin_list.components.CoinListItem
 
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -38,44 +47,40 @@ fun CoinDetailScreen(
     viewModel: CoinDetailViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState(initial = CoinDetailState.Loading)
-    Box(modifier = Modifier.fillMaxSize()) {
-        when(state) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black)
+    ) {
+        when (state) {
             is CoinDetailState.Success -> {
                 val data = (state as CoinDetailState.Success).data
                 LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxWidth(),
                     contentPadding = PaddingValues(20.dp)
                 ) {
                     item {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text(
-                                text = "${data?.rank}. ${data?.name} (${data?.symbol})",
-                                style = MaterialTheme.typography.headlineMedium,
-                                modifier = Modifier.weight(8f)
-                            )
-                            Text(
-                                text = if(data?.isActive == true) "active" else "inactive",
-                                color = if(data?.isActive == true) Color.Green else Color.Red,
-                                fontStyle = FontStyle.Italic,
-                                textAlign = TextAlign.End,
-                                modifier = Modifier
-                                    .align(CenterVertically)
-                                    .weight(2f)
-                            )
-                        }
+                        CoinListItem(
+                            coin = Coin(
+                                data?.coinId,
+                                data?.isActive,
+                                data?.isNew,
+                                data?.name,
+                                data?.rank,
+                                data?.symbol
+                            ), onItemClick = {})
                         Spacer(modifier = Modifier.height(15.dp))
                         data?.description?.let {
                             Text(
                                 text = it,
+                                color = Color.White,
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         }
                         Spacer(modifier = Modifier.height(15.dp))
                         Text(
                             text = "Tags",
+                            color = Color.White,
                             style = MaterialTheme.typography.headlineLarge
                         )
                         Spacer(modifier = Modifier.height(15.dp))
@@ -91,6 +96,7 @@ fun CoinDetailScreen(
                         Spacer(modifier = Modifier.height(15.dp))
                         Text(
                             text = "Team members",
+                            color = Color.White,
                             style = MaterialTheme.typography.headlineLarge
                         )
                         Spacer(modifier = Modifier.height(15.dp))
@@ -108,6 +114,7 @@ fun CoinDetailScreen(
                     }
                 }
             }
+
             is CoinDetailState.Error -> {
                 val st = state as CoinDetailState.Error
                 st.errorMessage?.let {
@@ -123,8 +130,9 @@ fun CoinDetailScreen(
                 }
 
             }
-             CoinDetailState.Loading -> {
-                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+
+            CoinDetailState.Loading -> {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
 
             }
 
