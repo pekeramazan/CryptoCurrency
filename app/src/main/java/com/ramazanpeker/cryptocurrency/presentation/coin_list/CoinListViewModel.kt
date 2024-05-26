@@ -10,6 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,8 +19,8 @@ class CoinListViewModel @Inject constructor(
     private val getCoinsUseCase: GetCoinsUseCase
 ) : ViewModel() {
 
-    private val _state = MutableSharedFlow<CoinListState>()
-    val state = _state.asSharedFlow()
+    private val _state = MutableStateFlow<CoinListState>(CoinListState.Loading)
+    val state = _state.asStateFlow()
 
     init {
         getCoins()  
