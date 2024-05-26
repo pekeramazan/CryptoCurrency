@@ -21,10 +21,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontStyle
@@ -39,30 +42,42 @@ fun CoinListItem(
     onItemClick: (Coin) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val gradientBrush = Brush.horizontalGradient(
+        colors = listOf(Color.White, Color.Blue, Color.Magenta)
+    )
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
+
             .clickable { onItemClick(coin) }
             .padding(vertical = 8.dp)
-            .background(
-                brush = Brush.horizontalGradient(
-                    colors = listOf(Color(0xFF4CAF50), Color(0xFF2E7D32)),
-                    startX = 0f,
-                    endX = 600f
-                ),
+            .background(color = Color.Black,
                 shape = RoundedCornerShape(12.dp),
-            ), verticalAlignment = Alignment.CenterVertically,
+            )
+            .drawBehind {
+
+                val cornerRadius = 12.dp.toPx()
+                drawRoundRect(
+                    brush = gradientBrush,
+                    size = size,
+                    style = Stroke(width = 2.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round),
+                    cornerRadius = CornerRadius(cornerRadius, cornerRadius)
+
+                )
+            }, verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly
 
     ) {
-        Spacer(modifier = Modifier.width(10.dp))
+        Spacer(modifier = Modifier.width(20.dp))
 
         Box(
             modifier = Modifier
-                .size(40.dp)
-                .background(Color(0xFF2E7D32), CircleShape),
+                .size(25.dp)
+                .background(Color.Blue, CircleShape),
             contentAlignment = Alignment.Center
         ) {
+
             Text(
                 text = "${coin.rank}",
                 color = Color.White,
